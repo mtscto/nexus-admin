@@ -1,0 +1,36 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+<defs>
+<linearGradient id="nexusGradient" x1="0" y1="0" x2="64" y2="64">
+<stop offset="0%" stop-color="#34D399"/>
+<stop offset="100%" stop-color="#22D3EE"/>
+</linearGradient>
+</defs>
+
+<!-- topo -->
+<path
+d="M26 20 L30 14 L34 20"
+stroke="url(#nexusGradient)"
+stroke-width="8"
+stroke-linecap="round"
+stroke-linejoin="round"
+/>
+
+<!-- esquerda -->
+<!-- esquerda -->
+<path
+d="M10 44 L19 30"
+stroke="url(#nexusGradient)"
+stroke-width="9"
+stroke-linecap="round"
+/>
+
+<!-- direita -->
+<path
+d="M50 44 L41 30"
+stroke="url(#nexusGradient)"
+stroke-width="9"
+stroke-linecap="round"
+/>
+
+</svg>

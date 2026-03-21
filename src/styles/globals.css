@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-zinc-50 text-zinc-900;
+    }
+
+    .dark body {
+        @apply bg-zinc-950 text-zinc-100;
+    }
+}
+
+@keyframes floatSlow {
+    0% {
+        transform: translateY(0px) scale(1.15);
+    }
+
+    50% {
+        transform: translateY(-10px) scale(1.17);
+    }
+
+    100% {
+        transform: translateY(0px) scale(1.15);
+    }
+}
+
+.animate-floatSlow {
+    animation: floatSlow 12s ease-in-out infinite;
+}
+
+/* remove autofill whitestyle */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #18181b inset !important;
+    box-shadow: 0 0 0 1000px #18181b inset !important;
+
+    -webkit-text-fill-color: white !important;
+
+    transition: background-color 5000s ease-in-out 0s;
+}
