@@ -1,73 +1,136 @@
-# React + TypeScript + Vite
+# 🚀 Nexus Admin
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern SaaS dashboard built with a multi-tenant architecture, dynamic branding system, and scalable front-end structure.
 
-Currently, two official plugins are available:
+## ✨ Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Nexus Admin is a production-ready dashboard designed to simulate real-world SaaS applications.
 
-## React Compiler
+It includes multi-organization support, role-based access control, and dynamic UI branding based on subscription plans.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+---
 
-## Expanding the ESLint configuration
+## 🧠 Core Concepts
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Multi-tenant architecture
+- Organization switching (real-time UI update)
+- Plan-based feature gating
+- Dynamic branding system (Free / Pro / Enterprise)
+- Persistent user session
+- Scalable front-end architecture (feature-based)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🧩 Features
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 🔐 Authentication (Mocked)
+- Async login simulation
+- Error handling structure
+- Session persistence via localStorage
+
+### 🏢 Multi-Tenant System
+- Users can belong to multiple organizations
+- Switch organizations instantly
+- Each organization has its own:
+  - Plan
+  - Branding
+  - Limits
+
+### 🎨 Dynamic Branding
+- Full UI changes based on plan:
+  - Free → Gray
+  - Pro → Blue / Indigo
+  - Enterprise → Emerald
+- Applied to:
+  - Sidebar indicator
+  - Icons
+  - Badges
+  - Highlights
+
+### 📊 Dashboard Structure
+- Modular layout (Sidebar + Header + Content)
+- Animated sidebar (collapse / expand)
+- Active route indicator with smooth transitions
+
+### 🧭 UX & UI
+- Micro-interactions across UI
+- Smooth transitions (no layout shift)
+- Premium dark SaaS design
+- Reusable Empty State system with CTA
+
+---
+
+## 🏗️ Architecture
+
+```txt
+src/
+│
+├── features/
+│   ├── auth/                # authentication logic (login, session)
+│   ├── dashboard/           # core layout and dashboard structure
+│   ├── products/            # product management module
+│   ├── team/                # team management module
+│   └── plans/               # plan & feature gating logic
+│
+├── shared/
+│   ├── components/          # reusable UI components (UserMenu, EmptyState, etc)
+│   ├── context/             # global contexts (Organization, Theme, etc)
+│   ├── services/            # API layer (axios setup, future integration)
+│   ├── utils/               # helpers and utilities
+│   └── styles/              # global styles
+│
+├── routes/                  # application routing (protected routes)
+├── assets/                  # static files (icons, images)
+└── main.tsx                 # application entry point
+└──App.tsx                   # root component
+
+📐 Architectural Principles
+
+- Feature-based modular structure
+- Separation of concerns (UI / state / services)
+- Scalable context architecture
+- Ready for backend integration
+- Consistent UI system with dynamic branding
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Tech Stack
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- React
+- TypeScript
+- Vite
+- TailwindCSS
+- React Router
+- Context API
+- Axios
+
+---
+
+## 🚧 Roadmap
+
+- [ ] Backend integration (API)
+- [ ] Real authentication (JWT)
+- [ ] Role-based permissions (RBAC)
+- [ ] Plan upgrade flow
+- [ ] Billing simulation
+- [ ] Data visualization (Recharts)
+
+---
+
+## 🎯 Goal
+
+This project was built to demonstrate real-world SaaS architecture and front-end engineering practices focused on scalability, UX, and maintainability.
+
+---
+
+## 📸 Preview
+
+(coming soon)
+
+---
+
+## 🧑‍💻 Author
+
+Matheus Tavares
+[GitHub](https://github.com/mtscto)
