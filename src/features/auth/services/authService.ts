@@ -1,5 +1,3 @@
-// src/features/auth/services/authService.ts
-
 export type Role = "admin" | "member" | "viewer";
 
 export type Plan = "free" | "pro" | "enterprise";
@@ -33,7 +31,7 @@ export const authService = {
         const DEMO_PASSWORD = "demo123";
 
         if (email !== DEMO_EMAIL || password !== DEMO_PASSWORD) {
-            throw new Error("Credenciais inválidas");
+            throw new Error("Login failed. Please check your credentials.");
         }
 
         const mockUser: User = {
