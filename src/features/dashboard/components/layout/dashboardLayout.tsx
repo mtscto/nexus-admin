@@ -1,17 +1,12 @@
-// src/features/dashboard/components/DashboardLayout.tsx
-
 import React, { useState, useRef, useEffect } from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { useAuth } from "../../auth/context/AuthContext";
-import { useOrganization } from "../../../shared/context/OrganizationContext";
-import UserMenu from "../../../shared/components/UserMenu";
+import { useAuth } from "../../../auth/context/AuthContext";
+import { useOrganization } from "../../../../shared/context/OrganizationContext";
+import DashboardHeader from "../header/DashboardHeader";
 import {
-    Search,
-    Bell,
     LayoutDashboard,
     Package,
-    Users,
-    PanelLeft,
+    Users
 } from "lucide-react";
 
 export default function DashboardLayout() {
@@ -50,39 +45,11 @@ export default function DashboardLayout() {
     return (
         <div className="min-h-screen bg-zinc-950 text-white flex flex-col transition-colors duration-300">
 
-            <header className="h-16 border-b border-zinc-800 bg-zinc-950 px-6 flex items-center justify-between">
-
-                <div className="flex items-center gap-4">
-                    {/* Sidebar toggle with tactile feedback and branding */}
-                    <button
-                        onClick={() => setCollapsed(!collapsed)}
-                        className={`
-                        transition-all duration-300 ease-out
-                        ${planColors?.iconActive ?? "text-emerald-400"}
-
-                        hover:scale-105 hover:opacity-90
-                        active:scale-90 active:opacity-70
-                        `}
-                    >
-                        <PanelLeft size={20} />
-                    </button>
-
-                    <h1 className="text-lg font-semibold tracking-tight">
-                        Dashboard
-                    </h1>
-                </div>
-
-                <div className="flex items-center gap-5">
-                    {/* Neutral interaction icons (consistent across product) */}
-                    <Search className="text-zinc-400 hover:text-white transition duration-200" size={18} />
-                    <Bell className="text-zinc-400 hover:text-white transition duration-200" size={18} />
-
-                    <div className="w-px h-6 bg-zinc-800" />
-
-                    <UserMenu />
-                </div>
-
-            </header>
+            <DashboardHeader
+                collapsed={collapsed}
+                setCollapsed={setCollapsed}
+                planColors={planColors}
+            />
 
             <div className="flex flex-1">
 
