@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../../../auth/context/AuthContext";
 import { useOrganization } from "../../../../shared/context/OrganizationContext";
+import { getPlanColors } from "../../../../shared/theme/planBranding";
 import DashboardHeader from "../header/DashboardHeader";
 import {
     LayoutDashboard,
@@ -19,13 +20,9 @@ export default function DashboardLayout() {
     const { user } = useAuth();
     const { activeOrganization, planColors } = useOrganization();
 
-    /**
-     * Active navigation indicator positioning
-     *
-     * The indicator is positioned dynamically based on the active route.
-     * We compute the offset relative to the nav container to avoid layout shifts
-     * and ensure smooth transitions even with sidebar collapse/expand.
-     */
+    const safePlanColors =
+        planColors ?? getPlanColors(activeOrganization?.plan ?? "free");
+
     useEffect(() => {
         const nav = navRef.current;
         const indicator = indicatorRef.current;
@@ -43,38 +40,49 @@ export default function DashboardLayout() {
     }, [location]);
 
     return (
-        <div className="min-h-screen bg-zinc-950 text-white flex flex-col transition-colors duration-300">
+        <div className="min-h-screen bg-zinc-950 text-white flex flex-col relative isolate">
 
-            <DashboardHeader
-                collapsed={collapsed}
-                setCollapsed={setCollapsed}
-                planColors={planColors}
-            />
+            <div className="pointer-events-none absolute inset-0 z-0">
+                <div
+                    className={`
+                    absolute top-0 left-1/2 -translate-x-1/2
+                    w-[900px] h-[900px] rounded-full blur-[120px]
+                    opacity-50
+                    ${safePlanColors.ambient}
+                    `}
+                />
+            </div>
 
-            <div className="flex flex-1">
+            <div className="relative z-50">
+                <DashboardHeader
+                    collapsed={collapsed}
+                    setCollapsed={setCollapsed}
+                />
+            </div>
+
+            <div className="flex flex-1 relative z-10">
 
                 <aside
                     className={`
+                    relative z-20
                     transition-[width] duration-300 ease-in-out
-                    bg-zinc-900/80 backdrop-blur-xl border-r border-zinc-800
+                    bg-zinc-900/70 backdrop-blur-xl
+                    border-r border-white/5
                     ${collapsed ? "w-20" : "w-64"}
                     `}
                 >
 
-                    {/* USER CONTEXT BLOCK */}
-                    <div className="px-4 h-24 flex items-center border-b border-zinc-800">
+                    <div className="px-4 h-24 flex items-center border-b border-white/5">
                         <div className="flex items-center gap-4 w-full">
 
-                            {/* Avatar reflects active plan via ring color */}
                             <div
                                 className={`
                                 w-12 h-12 rounded-full shrink-0 bg-zinc-700 ring-2
                                 transition-all duration-500 ease-out
-                                ${planColors?.ring ?? "ring-zinc-700"}
+                                ${safePlanColors.ring}
                                 `}
                             />
 
-                            {/* Organization + user info (collapsed-safe animation) */}
                             <div
                                 className={`
                                 flex flex-col justify-center overflow-hidden
@@ -90,13 +98,12 @@ export default function DashboardLayout() {
                                     {activeOrganization?.name}
                                 </span>
 
-                                {/* Plan badge is part of branding system */}
-                                {activeOrganization && planColors && (
+                                {activeOrganization && (
                                     <span
                                         className={`
                                         mt-2 px-2 py-0.5 text-[10px] font-medium rounded-full border w-fit
                                         transition-all duration-500 ease-out
-                                        ${planColors.badge}
+                                        ${safePlanColors.badge}
                                         `}
                                     >
                                         {activeOrganization.plan.toUpperCase()}
@@ -109,29 +116,25 @@ export default function DashboardLayout() {
 
                     <nav ref={navRef} className="relative py-4 space-y-1">
 
-                        {/* Active route indicator
-                           Combines position animation + color transition from plan */}
                         <div
                             ref={indicatorRef}
                             className={`
                             absolute left-1 w-[3px] rounded-full
                             transition-all duration-300 ease-out
-
-                            ${planColors?.activeIndicator ?? "bg-zinc-500"}
-                            ${planColors?.glow ?? ""}
+                            ${safePlanColors.activeIndicator}
                             `}
                             style={{ top: 0, height: 0 }}
                         />
 
-                        <NavItem to="/dashboard" collapsed={collapsed} Icon={LayoutDashboard} planColors={planColors}>
+                        <NavItem to="/dashboard" collapsed={collapsed} Icon={LayoutDashboard} planColors={safePlanColors}>
                             Dashboard
                         </NavItem>
 
-                        <NavItem to="/products" collapsed={collapsed} Icon={Package} planColors={planColors}>
+                        <NavItem to="/products" collapsed={collapsed} Icon={Package} planColors={safePlanColors}>
                             Products
                         </NavItem>
 
-                        <NavItem to="/team" collapsed={collapsed} Icon={Users} planColors={planColors}>
+                        <NavItem to="/team" collapsed={collapsed} Icon={Users} planColors={safePlanColors}>
                             Team
                         </NavItem>
 
@@ -139,8 +142,10 @@ export default function DashboardLayout() {
 
                 </aside>
 
-                <main className="flex-1 p-6 bg-zinc-950">
-                    <Outlet />
+                <main className="relative z-10 flex-1 overflow-hidden bg-transparent">
+                    <div className="relative z-10 p-6">
+                        <Outlet />
+                    </div>
                 </main>
 
             </div>
@@ -148,15 +153,6 @@ export default function DashboardLayout() {
     );
 }
 
-/**
- * Navigation item
- *
- * Responsibilities:
- * - Reflect active route state
- * - Apply branding only to active state
- * - Maintain consistent spacing in both collapsed and expanded states
- * - Provide tactile feedback via micro-interactions
- */
 function NavItem({
     to,
     collapsed,
@@ -177,19 +173,12 @@ function NavItem({
                     data-active={isActive}
                     className={`
                     group w-full flex items-center h-10 px-3 rounded-md
-
-                    /* Motion */
                     transition-all duration-200 ease-out
-                    transition-colors duration-300
-
-                    /* Interaction feedback */
                     active:scale-[0.97]
                     active:opacity-80
-
-                    /* State styling */
                     ${isActive
-                            ? `${planColors?.activeBg ?? "bg-white/5"} text-white shadow-inner`
-                            : "text-zinc-400 hover:bg-zinc-800/40 hover:text-white"
+                            ? `${planColors.activeBg} text-white shadow-inner`
+                            : `text-zinc-400 ${planColors.hoverBg} hover:text-white`
                         }
                     `}
                 >
@@ -198,8 +187,6 @@ function NavItem({
                             size={18}
                             className={`
                             transition-all duration-200 ease-out
-                            transition-colors duration-300
-
                             ${isActive
                                     ? "text-white scale-110"
                                     : "text-zinc-400 group-hover:text-white group-hover:scale-105"
@@ -211,10 +198,7 @@ function NavItem({
                     <span
                         className={`
                         ml-3 whitespace-nowrap overflow-hidden
-
-                        /* Collapse-safe animation */
                         transition-all duration-300 ease-in-out
-
                         ${collapsed
                                 ? "opacity-0 max-w-0"
                                 : "opacity-100 max-w-[200px]"

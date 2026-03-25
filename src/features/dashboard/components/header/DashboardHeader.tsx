@@ -2,6 +2,7 @@ import HeaderSearch from "./HeaderSearch";
 import HeaderNotifications from "./DashboardNotifications";
 import HeaderSidebarToggle from "./DashboardSidebarToggle";
 import UserMenu from "../../../../shared/components/UserMenu";
+import logo from "../../../../assets/logos/nexus-logo.svg"
 
 export default function DashboardHeader({
     collapsed,
@@ -22,13 +23,17 @@ export default function DashboardHeader({
         ">
 
             {/* LEFT */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
                 <HeaderSidebarToggle
                     collapsed={collapsed}
                     setCollapsed={setCollapsed}
                 />
 
-                {/* depois entra logo aqui */}
+                <img
+                    src={logo}
+                    alt="Nexus Admin"
+                    className="h-10 mx-auto" />
+
             </div>
 
             {/* CENTER */}

@@ -1,6 +1,20 @@
 type Plan = "free" | "pro" | "enterprise";
 
-export function getPlanColors(plan: Plan) {
+export type PlanColors = {
+    badge: string;
+    iconActive: string;
+    iconInactive: string;
+    iconHover: string;
+    textPrimary: string;
+    textSecondary: string;
+    activeIndicator: string;
+    ring: string;
+    hoverBg: string;
+    activeBg: string;
+    ambient: string;
+};
+
+export function getPlanColors(plan: Plan): PlanColors {
     switch (plan) {
         case "free":
             return {
@@ -11,10 +25,10 @@ export function getPlanColors(plan: Plan) {
                 textPrimary: "text-white",
                 textSecondary: "text-zinc-400",
                 activeIndicator: "bg-zinc-500",
-                glow: "",
                 ring: "ring-zinc-600",
                 hoverBg: "hover:bg-zinc-800/50",
                 activeBg: "bg-zinc-800/70",
+                ambient: "bg-zinc-500/10",
             };
 
         case "pro":
@@ -26,10 +40,10 @@ export function getPlanColors(plan: Plan) {
                 textPrimary: "text-white",
                 textSecondary: "text-indigo-300/70",
                 activeIndicator: "bg-indigo-500",
-                glow: "shadow-[0_0_12px_rgba(99,102,241,0.6)]",
                 ring: "ring-indigo-500",
                 hoverBg: "hover:bg-indigo-500/10",
                 activeBg: "bg-indigo-500/10",
+                ambient: "bg-indigo-500/12",
             };
 
         case "enterprise":
@@ -41,10 +55,10 @@ export function getPlanColors(plan: Plan) {
                 textPrimary: "text-white",
                 textSecondary: "text-emerald-300/70",
                 activeIndicator: "bg-emerald-500",
-                glow: "shadow-[0_0_12px_rgba(16,185,129,0.6)]",
                 ring: "ring-emerald-500",
                 hoverBg: "hover:bg-emerald-500/10",
                 activeBg: "bg-emerald-500/10",
+                ambient: "bg-emerald-400/15",
             };
 
         default:
@@ -56,10 +70,10 @@ export function getPlanColors(plan: Plan) {
                 textPrimary: "text-white",
                 textSecondary: "text-zinc-400",
                 activeIndicator: "bg-zinc-500",
-                glow: "",
                 ring: "ring-zinc-700",
                 hoverBg: "hover:bg-zinc-800/50",
                 activeBg: "bg-zinc-800/70",
+                ambient: "bg-zinc-500/10",
             };
     }
 }
